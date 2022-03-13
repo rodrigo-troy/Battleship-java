@@ -22,9 +22,14 @@ public class Battleship {
 
         Scanner scanner = new Scanner(System.in);
 
-        System.out.print("Enter the coordinates of the Aircraft Carrier (5 cells):");
         Ship aircraftCarrier = new Ship(5);
+        Ship battleship = new Ship(4);
+        Ship submarine = new Ship(3);
+        Ship cruiser = new Ship(3);
+        Ship destroyer = new Ship(2);
 
+
+        System.out.print("Enter the coordinates of the Aircraft Carrier (5 cells):");
         while (true) {
             String line = scanner.nextLine();
 
@@ -35,8 +40,8 @@ public class Battleship {
                 continue;
             }
 
-            if (!board.isValidCoord(c[0]) ||
-                !board.isValidCoord(c[1])) {
+            if (board.isInvalidCoord(c[0]) ||
+                board.isInvalidCoord(c[1])) {
                 System.out.println("Error! Bad parameters! Try again:");
                 continue;
             }
@@ -49,11 +54,20 @@ public class Battleship {
             }
 
             if (!board.isSpaceAvailable(c[0],
-                                        c[1],
-                                        aircraftCarrier)) {
+                                        c[1])) {
                 System.out.println("Error! Wrong ship location! Try again:");
                 continue;
             }
+
+            if (board.isTooCloseToAnotherShip(c[0],
+                                              c[1])) {
+                System.out.println("Error! You placed it too close to another one. Try again:");
+                continue;
+            }
+
+            board.addShip(c[0],
+                          c[1],
+                          aircraftCarrier);
         }
 
     }
