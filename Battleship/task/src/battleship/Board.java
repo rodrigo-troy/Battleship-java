@@ -85,7 +85,7 @@ public class Board {
 
         if (row1 != row2 && col1 == col2) {
             if (row1 < row2) {
-                for (int i = row1; i < row2; i++) {
+                for (int i = row1; i <= row2; i++) {
                     if (table[i][col1] != '~') {
                         return false;
                     }
@@ -93,7 +93,7 @@ public class Board {
             }
 
             if (row1 > row2) {
-                for (int i = row2; i < row1; i++) {
+                for (int i = row2; i <= row1; i++) {
                     if (table[i][col1] != '~') {
                         return false;
                     }
@@ -103,16 +103,16 @@ public class Board {
 
         if (row1 == row2 && col1 != col2) {
             if (col1 < col2) {
-                for (int i = col1; i < col2; i++) {
-                    if (table[i][col1] != '~') {
+                for (int i = col1; i <= col2; i++) {
+                    if (table[row1][i] != '~') {
                         return false;
                     }
                 }
             }
 
             if (col1 > col2) {
-                for (int i = col2; i < col1; i++) {
-                    if (table[i][col1] != '~') {
+                for (int i = col2; i <= col1; i++) {
+                    if (table[row1][i] != '~') {
                         return false;
                     }
                 }
@@ -123,10 +123,45 @@ public class Board {
     }
 
     public void addShip(String c1,
-                        String c2,
-                        Ship ship) {
-        String[] c1Arr = c1.split("");
-        String[] c2Arr = c2.split("");
+                        String c2) {
+        String[] coordArray1 = c1.split("");
+        String[] coordArray2 = c2.split("");
+
+        List<Integer> columns = Arrays.stream(Board.COLUMNS).boxed().collect(Collectors.toList());
+
+        int row1 = Board.ROWS.indexOf(coordArray1[0]);
+        int col1 = coordArray1.length == 2 ? columns.indexOf(Integer.parseInt(coordArray1[1])) : 9;
+
+        int row2 = Board.ROWS.indexOf(coordArray2[0]);
+        int col2 = coordArray2.length == 2 ? columns.indexOf(Integer.parseInt(coordArray2[1])) : 9;
+
+        if (row1 != row2 && col1 == col2) {
+            if (row1 < row2) {
+                for (int i = row1; i <= row2; i++) {
+                    table[i][col1] = 'O';
+                }
+            }
+
+            if (row1 > row2) {
+                for (int i = row2; i <= row1; i++) {
+                    table[i][col1] = 'O';
+                }
+            }
+        }
+
+        if (row1 == row2 && col1 != col2) {
+            if (col1 < col2) {
+                for (int i = col1; i <= col2; i++) {
+                    table[row1][i] = 'O';
+                }
+            }
+
+            if (col1 > col2) {
+                for (int i = col2; i <= col1; i++) {
+                    table[row1][i] = 'O';
+                }
+            }
+        }
     }
 
     private void prepareBoard() {
@@ -136,29 +171,27 @@ public class Board {
         }
     }
 
-    public String print() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("  1 2 3 4 5 6 7 8 9 10\n");
+    public void print() {
+        System.out.println("  1 2 3 4 5 6 7 8 9 10");
 
         for (int row = 0; row < table.length; row++) {
             for (int column = 0; column < table[row].length; column++) {
                 char c = table[row][column];
 
                 if (column == 0) {
-                    sb.append(ROWS.charAt(row));
-                    sb.append(" ");
-                    sb.append(c);
-                    sb.append(" ");
+                    System.out.printf("%s %s ",
+                                      ROWS.charAt(row),
+                                      c);
                 } else {
-                    sb.append(c);
-                    sb.append(" ");
+                    System.out.printf("%s ",
+                                      c);
                 }
             }
 
-            sb.append("\n");
+            System.out.println();
         }
 
-        return sb.toString();
+        System.out.println();
     }
 
     public boolean isTooCloseToAnotherShip(String c1,
@@ -189,7 +222,7 @@ public class Board {
                 }
 
                 if (col1 - 1 >= 0) {
-                    for (int i = row1; i < row2; i++) {
+                    for (int i = row1; i <= row2; i++) {
                         if (table[i][col1 - 1] != '~') {
                             return true;
                         }
@@ -197,7 +230,7 @@ public class Board {
                 }
 
                 if (col1 + 1 < 10) {
-                    for (int i = row1; i < row2; i++) {
+                    for (int i = row1; i <= row2; i++) {
                         if (table[i][col1 + 1] != '~') {
                             return true;
                         }
@@ -219,7 +252,7 @@ public class Board {
                 }
 
                 if (col1 - 1 >= 0) {
-                    for (int i = row2; i < row1; i++) {
+                    for (int i = row2; i <= row1; i++) {
                         if (table[i][col1 - 1] != '~') {
                             return true;
                         }
@@ -227,7 +260,7 @@ public class Board {
                 }
 
                 if (col1 + 1 < 10) {
-                    for (int i = row2; i < row1; i++) {
+                    for (int i = row2; i <= row1; i++) {
                         if (table[i][col1 + 1] != '~') {
                             return true;
                         }
@@ -238,21 +271,25 @@ public class Board {
 
         if (row1 == row2 && col1 != col2) {
             if (col1 < col2) {
-                if (col1 - 1 >= 0) {
-                    if (table[row1][col1 - 1] != '~') {
-                        return true;
-                    }
+                if (col1 - 1 >= 0 && table[row1][col1 - 1] != '~') {
+                    return true;
                 }
 
-                if (col2 + 1 < 10) {
-                    if (table[row1][col2 + 1] != '~') {
-                        return true;
-                    }
+                if (col2 + 1 < 10 && table[row1][col2 + 1] != '~') {
+                    return true;
                 }
 
                 if (row1 - 1 >= 0) {
-                    for (int i = col1; i < col2; i++) {
-                        if (table[i][col1] != '~') {
+                    for (int i = col1; i <= col2; i++) {
+                        if (table[row1 - 1][i] != '~') {
+                            return true;
+                        }
+                    }
+                }
+
+                if (row1 + 1 < 10) {
+                    for (int i = col1; i <= col2; i++) {
+                        if (table[row1 + 1][i] != '~') {
                             return true;
                         }
                     }
@@ -260,9 +297,27 @@ public class Board {
             }
 
             if (col1 > col2) {
-                for (int i = col2; i < col1; i++) {
-                    if (table[i][col1] != '~') {
-                        return true;
+                if (col2 - 1 >= 0 && table[row1][col2 - 1] != '~') {
+                    return true;
+                }
+
+                if (col1 + 1 < 10 && table[row1][col1 + 1] != '~') {
+                    return true;
+                }
+
+                if (row1 - 1 >= 0) {
+                    for (int i = col2; i <= col1; i++) {
+                        if (table[row1 - 1][i] != '~') {
+                            return true;
+                        }
+                    }
+                }
+
+                if (row1 + 1 < 10) {
+                    for (int i = col2; i <= col1; i++) {
+                        if (table[row1 + 1][i] != '~') {
+                            return true;
+                        }
                     }
                 }
             }
