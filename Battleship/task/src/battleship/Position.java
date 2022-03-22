@@ -36,6 +36,14 @@ public class Position {
         return column;
     }
 
+    public boolean isSameRow(Position position) {
+        return position.getRow().equals(this.getRow());
+    }
+
+    public boolean isSameColumn(Position position) {
+        return position.getColumn().equals(this.getColumn());
+    }
+
     private void processCoord() {
         String[] coordArray1 = this.coord.split("");
 

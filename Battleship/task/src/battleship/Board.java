@@ -57,41 +57,39 @@ public class Board {
         return false;
     }
 
-    public boolean isShipLengthRight(String coord1,
+    public boolean isShipLengthWrong(String coord1,
                                      String coord2,
                                      Ship ship) {
         Position position1 = new Position(coord1);
         Position position2 = new Position(coord2);
 
         if (!position1.getRow().equals(position2.getRow()) && position1.getColumn().equals(position2.getColumn())) {
-            return Math.abs(position1.getRow() - position2.getRow()) + 1 == ship.getSize();
+            return Math.abs(position1.getRow() - position2.getRow()) + 1 != ship.getSize();
         }
 
         if (position1.getRow().equals(position2.getRow()) && !position1.getColumn().equals(position2.getColumn())) {
-            return Math.abs(position1.getColumn() - position2.getColumn()) + 1 == ship.getSize();
+            return Math.abs(position1.getColumn() - position2.getColumn()) + 1 != ship.getSize();
         }
 
-        return false;
+        return true;
     }
 
-    public boolean isSpaceAvailable(String coord1,
-                                    String coord2) {
-        String[] coordArray1 = coord1.split("");
-        String[] coordArray2 = coord2.split("");
+    public boolean isSpaceUnavailable(String coord1,
+                                      String coord2) {
+        Position position1 = new Position(coord1);
+        Position position2 = new Position(coord2);
 
-        List<Integer> columns = Arrays.stream(Board.COLUMNS).boxed().collect(Collectors.toList());
+        int row1 = position1.getRow();
+        int col1 = position1.getColumn();
 
-        int row1 = Board.ROWS.indexOf(coordArray1[0]);
-        int col1 = coordArray1.length == 2 ? columns.indexOf(Integer.parseInt(coordArray1[1])) : 9;
-
-        int row2 = Board.ROWS.indexOf(coordArray2[0]);
-        int col2 = coordArray2.length == 2 ? columns.indexOf(Integer.parseInt(coordArray2[1])) : 9;
+        int row2 = position2.getRow();
+        int col2 = position2.getColumn();
 
         if (row1 != row2 && col1 == col2) {
             if (row1 < row2) {
                 for (int i = row1; i <= row2; i++) {
                     if (table[i][col1] != '~') {
-                        return false;
+                        return true;
                     }
                 }
             }
@@ -99,7 +97,7 @@ public class Board {
             if (row1 > row2) {
                 for (int i = row2; i <= row1; i++) {
                     if (table[i][col1] != '~') {
-                        return false;
+                        return true;
                     }
                 }
             }
@@ -109,7 +107,7 @@ public class Board {
             if (col1 < col2) {
                 for (int i = col1; i <= col2; i++) {
                     if (table[row1][i] != '~') {
-                        return false;
+                        return true;
                     }
                 }
             }
@@ -117,29 +115,28 @@ public class Board {
             if (col1 > col2) {
                 for (int i = col2; i <= col1; i++) {
                     if (table[row1][i] != '~') {
-                        return false;
+                        return true;
                     }
                 }
             }
         }
 
-        return true;
+        return false;
     }
 
-    public void addShip(String c1,
-                        String c2) {
-        String[] coordArray1 = c1.split("");
-        String[] coordArray2 = c2.split("");
+    public void addShip(String coord1,
+                        String coord2) {
+        Position position1 = new Position(coord1);
+        Position position2 = new Position(coord2);
 
-        List<Integer> columns = Arrays.stream(Board.COLUMNS).boxed().collect(Collectors.toList());
+        int row1 = position1.getRow();
+        int col1 = position1.getColumn();
 
-        int row1 = Board.ROWS.indexOf(coordArray1[0]);
-        int col1 = coordArray1.length == 2 ? columns.indexOf(Integer.parseInt(coordArray1[1])) : 9;
+        int row2 = position2.getRow();
+        int col2 = position2.getColumn();
 
-        int row2 = Board.ROWS.indexOf(coordArray2[0]);
-        int col2 = coordArray2.length == 2 ? columns.indexOf(Integer.parseInt(coordArray2[1])) : 9;
-
-        if (row1 != row2 && col1 == col2) {
+        if (!position1.isSameRow(position2) &&
+            position1.isSameColumn(position2)) {
             if (row1 < row2) {
                 for (int i = row1; i <= row2; i++) {
                     table[i][col1] = 'O';

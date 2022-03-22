@@ -46,15 +46,15 @@ public class Battleship {
                 continue;
             }
 
-            if (!board.isShipLengthRight(c[0],
-                                         c[1],
-                                         aircraftCarrier)) {
+            if (board.isShipLengthWrong(c[0],
+                                        c[1],
+                                        aircraftCarrier)) {
                 System.out.println("Error! Wrong length of the Aircraft Carrier! Try again:");
                 continue;
             }
 
-            if (!board.isSpaceAvailable(c[0],
-                                        c[1])) {
+            if (board.isSpaceUnavailable(c[0],
+                                         c[1])) {
                 System.out.println("Error! Wrong ship location! Try again:");
                 continue;
             }
@@ -90,15 +90,15 @@ public class Battleship {
                 continue;
             }
 
-            if (!board.isShipLengthRight(c[0],
-                                         c[1],
-                                         battleship)) {
+            if (board.isShipLengthWrong(c[0],
+                                        c[1],
+                                        battleship)) {
                 System.out.println("Error! Wrong length of the Aircraft Carrier! Try again:");
                 continue;
             }
 
-            if (!board.isSpaceAvailable(c[0],
-                                        c[1])) {
+            if (board.isSpaceUnavailable(c[0],
+                                         c[1])) {
                 System.out.println("Error! Wrong ship location! Try again:");
                 continue;
             }
@@ -134,15 +134,15 @@ public class Battleship {
                 continue;
             }
 
-            if (!board.isShipLengthRight(c[0],
-                                         c[1],
-                                         submarine)) {
+            if (board.isShipLengthWrong(c[0],
+                                        c[1],
+                                        submarine)) {
                 System.out.println("Error! Wrong length of the Aircraft Carrier! Try again:");
                 continue;
             }
 
-            if (!board.isSpaceAvailable(c[0],
-                                        c[1])) {
+            if (board.isSpaceUnavailable(c[0],
+                                         c[1])) {
                 System.out.println("Error! Wrong ship location! Try again:");
                 continue;
             }
@@ -178,15 +178,15 @@ public class Battleship {
                 continue;
             }
 
-            if (!board.isShipLengthRight(c[0],
-                                         c[1],
-                                         cruiser)) {
+            if (board.isShipLengthWrong(c[0],
+                                        c[1],
+                                        cruiser)) {
                 System.out.println("Error! Wrong length of the Aircraft Carrier! Try again:");
                 continue;
             }
 
-            if (!board.isSpaceAvailable(c[0],
-                                        c[1])) {
+            if (board.isSpaceUnavailable(c[0],
+                                         c[1])) {
                 System.out.println("Error! Wrong ship location! Try again:");
                 continue;
             }
@@ -222,15 +222,15 @@ public class Battleship {
                 continue;
             }
 
-            if (!board.isShipLengthRight(c[0],
-                                         c[1],
-                                         destroyer)) {
+            if (board.isShipLengthWrong(c[0],
+                                        c[1],
+                                        destroyer)) {
                 System.out.println("Error! Wrong length of the Aircraft Carrier! Try again:");
                 continue;
             }
 
-            if (!board.isSpaceAvailable(c[0],
-                                        c[1])) {
+            if (board.isSpaceUnavailable(c[0],
+                                         c[1])) {
                 System.out.println("Error! Wrong ship location! Try again:");
                 continue;
             }
