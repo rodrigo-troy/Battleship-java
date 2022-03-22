@@ -1,5 +1,7 @@
 package battleship;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -11,9 +13,11 @@ import java.util.Scanner;
  */
 public class Battleship {
     private final Board board;
+    private List<Ship> shipList;
 
     public Battleship() {
         this.board = new Board();
+        this.shipList = new ArrayList<>();
     }
 
     private void addShip(Ship ship) {
@@ -66,28 +70,23 @@ public class Battleship {
             break;
         }
 
+        this.shipList.add(ship);
         this.board.print(false);
     }
 
     public void play() {
         this.board.print(false);
 
-        Ship aircraftCarrier = new Ship("Aircraft Carrier",
-                                        5);
-        Ship battleship = new Ship("Battleship",
-                                   4);
-        Ship submarine = new Ship("Submarine",
-                                  3);
-        Ship cruiser = new Ship("Cruiser",
-                                3);
-        Ship destroyer = new Ship("Destroyer",
-                                  2);
-
-        this.addShip(aircraftCarrier);
-        this.addShip(battleship);
-        this.addShip(submarine);
-        this.addShip(cruiser);
-        this.addShip(destroyer);
+        this.addShip(new Ship("Aircraft Carrier",
+                              5));
+        this.addShip(new Ship("Battleship",
+                              4));
+        this.addShip(new Ship("Submarine",
+                              3));
+        this.addShip(new Ship("Cruiser",
+                              3));
+        this.addShip(new Ship("Destroyer",
+                              2));
 
         System.out.println("The game starts!");
         this.board.print(true);
@@ -104,13 +103,39 @@ public class Battleship {
             }
 
             if (board.hitShip(shot)) {
-                System.out.println("You hit a ship!");
+                boolean shipSank = false;
+                for (Ship ship : this.shipList) {
+                    if (ship.isSank()) {
+                        System.out.println("You sank a ship! Specify a new target:");
+                        this.shipList.remove(ship);
+                        shipSank = true;
+                        break;
+                    }
+                }
+
+                if (!shipSank) {
+                    System.out.println("You hit a ship! Try again:");
+                }
             } else {
                 System.out.println("You missed!");
             }
 
-            this.board.print(false);
-            break;
+            this.board.print(true);
+
+            if (isGameOver()) {
+                System.out.println("You sank the last ship. You won. Congratulations!");
+                break;
+            }
         }
+    }
+
+    private boolean isGameOver() {
+        for (Ship ship : this.shipList) {
+            if (!ship.isSank()) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

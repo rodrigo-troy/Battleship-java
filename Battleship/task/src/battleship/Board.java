@@ -26,6 +26,8 @@ public class Board {
         if (table[Cell.getRow()][Cell.getColumn()].getStatus().equals(CellStatus.USED)) {
             table[Cell.getRow()][Cell.getColumn()].setStatus(CellStatus.HIT);
             return true;
+        } else if (table[Cell.getRow()][Cell.getColumn()].getStatus().equals(CellStatus.HIT)) {
+            return true;
         } else {
             table[Cell.getRow()][Cell.getColumn()].setStatus(CellStatus.MISSED);
             return false;
