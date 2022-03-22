@@ -11,18 +11,33 @@ import java.util.stream.Collectors;
  * Date: 22-03-22
  * Time: 13:33
  */
-public class Position {
+public class Cell {
+    private CellStatus status;
     private Integer row;
     private Integer column;
 
-    public Position(String coord) {
+    public Cell(String coord) {
         this.processCoord(coord);
+        this.status = CellStatus.EMPTY;
     }
 
-    public Position(Integer row,
-                    Integer column) {
+    public Cell(Integer row,
+                Integer column) {
         this.row = row;
         this.column = column;
+        this.status = CellStatus.EMPTY;
+    }
+
+    public CellStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(CellStatus status) {
+        this.status = status;
+    }
+
+    public boolean isEmpty() {
+        return this.getStatus().equals(CellStatus.EMPTY);
     }
 
     public Integer getRow() {
@@ -33,12 +48,12 @@ public class Position {
         return column;
     }
 
-    public boolean isSameRow(Position position) {
-        return position.getRow().equals(this.getRow());
+    public boolean isSameRow(Cell Cell) {
+        return Cell.getRow().equals(this.getRow());
     }
 
-    public boolean isSameColumn(Position position) {
-        return position.getColumn().equals(this.getColumn());
+    public boolean isSameColumn(Cell Cell) {
+        return Cell.getColumn().equals(this.getColumn());
     }
 
     private void processCoord(String coord) {

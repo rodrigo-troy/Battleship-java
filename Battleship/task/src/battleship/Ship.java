@@ -13,7 +13,7 @@ import java.util.List;
 public class Ship {
     private final int size;
     private final String name;
-    private List<Position> positionsUsed;
+    private List<Cell> CellsUsed;
 
     public Ship(String name,
                 int size) {
@@ -25,27 +25,47 @@ public class Ship {
         return name;
     }
 
+    public boolean isHit() {
+        for (Cell cell : this.getCellsUsed()) {
+            if (cell.getStatus().equals(CellStatus.HIT)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public boolean isSank() {
+        for (Cell cell : this.getCellsUsed()) {
+            if (!cell.getStatus().equals(CellStatus.HIT)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     public int getSize() {
         return size;
     }
 
-    public void addPosition(Position position) {
-        this.getPositionsUsed().add(position);
+    public void addCell(Cell Cell) {
+        this.getCellsUsed().add(Cell);
     }
 
-    private List<Position> getPositionsUsed() {
-        if (positionsUsed == null) {
-            positionsUsed = new ArrayList<>();
+    private List<Cell> getCellsUsed() {
+        if (CellsUsed == null) {
+            CellsUsed = new ArrayList<>();
         }
 
-        return positionsUsed;
+        return CellsUsed;
     }
 
     @Override
     public String toString() {
         return "Ship{" +
                "size=" + size +
-               ", positionUsed=" + positionsUsed +
+               ", CellUsed=" + CellsUsed +
                '}';
     }
 }
