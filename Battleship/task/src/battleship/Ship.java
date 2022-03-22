@@ -1,6 +1,7 @@
 package battleship;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -12,13 +13,12 @@ import java.util.Arrays;
 public class Ship {
     private final int size;
     private final String name;
-    private final String[] positionUsed;
+    private List<Position> positionsUsed;
 
     public Ship(String name,
                 int size) {
         this.name = name;
         this.size = size;
-        this.positionUsed = new String[size];
     }
 
     public String getName() {
@@ -29,15 +29,19 @@ public class Ship {
         return size;
     }
 
-    public String[] getPositionUsed() {
-        return positionUsed;
+    public List<Position> getPositionsUsed() {
+        if (positionsUsed == null) {
+            positionsUsed = new ArrayList<>();
+        }
+
+        return positionsUsed;
     }
 
     @Override
     public String toString() {
         return "Ship{" +
                "size=" + size +
-               ", positionUsed=" + Arrays.toString(positionUsed) +
+               ", positionUsed=" + positionsUsed +
                '}';
     }
 }

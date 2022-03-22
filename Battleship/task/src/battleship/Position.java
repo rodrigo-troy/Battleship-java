@@ -51,4 +51,13 @@ public class Position {
         this.row = Board.ROWS.indexOf(coordArray1[0]);
         this.column = coordArray1.length == 2 ? columns.indexOf(Integer.parseInt(coordArray1[1])) : 9;
     }
+
+    @Override
+    public String toString() {
+        return "Pos{" +
+               "c='" + coord + '\'' +
+               ", r=" + row +
+               ", c=" + column +
+               '}';
+    }
 }
