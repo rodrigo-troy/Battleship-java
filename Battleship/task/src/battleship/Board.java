@@ -20,6 +20,18 @@ public class Board {
         this.prepareBoard();
     }
 
+    public boolean hitShip(String coord) {
+        Position position = new Position(coord);
+
+        if (table[position.getRow()][position.getColumn()] == 'O') {
+            table[position.getRow()][position.getColumn()] = 'X';
+            return true;
+        } else {
+            table[position.getRow()][position.getColumn()] = 'M';
+            return false;
+        }
+    }
+
     public boolean isInvalidCoord(String coord) {
         String[] coordArray = coord.split("");
 
@@ -48,23 +60,15 @@ public class Board {
     public boolean isShipLengthRight(String coord1,
                                      String coord2,
                                      Ship ship) {
-        String[] coordArray1 = coord1.split("");
-        String[] coordArray2 = coord2.split("");
+        Position position1 = new Position(coord1);
+        Position position2 = new Position(coord2);
 
-        List<Integer> columns = Arrays.stream(Board.COLUMNS).boxed().collect(Collectors.toList());
-
-        int row1 = Board.ROWS.indexOf(coordArray1[0]);
-        int col1 = coordArray1.length == 2 ? columns.indexOf(Integer.parseInt(coordArray1[1])) : 9;
-
-        int row2 = Board.ROWS.indexOf(coordArray2[0]);
-        int col2 = coordArray2.length == 2 ? columns.indexOf(Integer.parseInt(coordArray2[1])) : 9;
-
-        if (row1 != row2 && col1 == col2) {
-            return Math.abs(row1 - row2) + 1 == ship.getSize();
+        if (!position1.getRow().equals(position2.getRow()) && position1.getColumn().equals(position2.getColumn())) {
+            return Math.abs(position1.getRow() - position2.getRow()) + 1 == ship.getSize();
         }
 
-        if (row1 == row2 && col1 != col2) {
-            return Math.abs(col1 - col2) + 1 == ship.getSize();
+        if (position1.getRow().equals(position2.getRow()) && !position1.getColumn().equals(position2.getColumn())) {
+            return Math.abs(position1.getColumn() - position2.getColumn()) + 1 == ship.getSize();
         }
 
         return false;

@@ -248,5 +248,26 @@ public class Battleship {
         }
 
         this.board.print();
+
+        System.out.println("The game starts!");
+        System.out.println("Take a shot!");
+
+        while (true) {
+            String shot = scanner.nextLine();
+
+            if (board.isInvalidCoord(shot)) {
+                System.out.println("Error! You entered the wrong coordinates! Try again:");
+                continue;
+            }
+
+            if (board.hitShip(shot)) {
+                System.out.println("You hit a ship!");
+            } else {
+                System.out.println("You missed!");
+            }
+
+            this.board.print();
+            break;
+        }
     }
 }
