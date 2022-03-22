@@ -18,7 +18,7 @@ public class Battleship {
 
 
     public void play() {
-        this.board.print();
+        this.board.print(false);
 
         Scanner scanner = new Scanner(System.in);
 
@@ -71,7 +71,7 @@ public class Battleship {
             break;
         }
 
-        this.board.print();
+        this.board.print(false);
 
         System.out.println("Enter the coordinates of the Battleship (4 cells):\n");
         while (true) {
@@ -115,7 +115,7 @@ public class Battleship {
             break;
         }
 
-        this.board.print();
+        this.board.print(false);
 
         System.out.println("Enter the coordinates of the Submarine (3 cells):\n");
         while (true) {
@@ -159,7 +159,7 @@ public class Battleship {
             break;
         }
 
-        this.board.print();
+        this.board.print(false);
 
         System.out.println("Enter the coordinates of the Cruiser (3 cells):\n");
         while (true) {
@@ -203,7 +203,7 @@ public class Battleship {
             break;
         }
 
-        this.board.print();
+        this.board.print(false);
 
         System.out.println("Enter the coordinates of the Destroyer (2 cells):\n");
         while (true) {
@@ -247,9 +247,10 @@ public class Battleship {
             break;
         }
 
-        this.board.print();
+        this.board.print(false);
 
         System.out.println("The game starts!");
+        this.board.print(true);
         System.out.println("Take a shot!");
 
         while (true) {
@@ -266,7 +267,7 @@ public class Battleship {
                 System.out.println("You missed!");
             }
 
-            this.board.print();
+            this.board.print(false);
             break;
         }
     }

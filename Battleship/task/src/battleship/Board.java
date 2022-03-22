@@ -47,11 +47,9 @@ public class Board {
         }
 
         if (coordArray.length == 3) {
-            if (!Board.ROWS.contains(coordArray[0]) ||
-                Arrays.stream(Board.COLUMNS).noneMatch(v -> v == Integer.parseInt(coordArray[1])) ||
-                !coordArray[2].equals("0")) {
-                return true;
-            }
+            return !Board.ROWS.contains(coordArray[0]) ||
+                   Arrays.stream(Board.COLUMNS).noneMatch(v -> v == Integer.parseInt(coordArray[1])) ||
+                   !coordArray[2].equals("0");
         }
 
         return false;
@@ -172,12 +170,13 @@ public class Board {
         }
     }
 
-    public void print() {
+    public void print(boolean hideShips) {
         System.out.println("  1 2 3 4 5 6 7 8 9 10");
 
         for (int row = 0; row < table.length; row++) {
             for (int column = 0; column < table[row].length; column++) {
                 char c = table[row][column];
+                c = hideShips && c == 'O' ? '~' : c;
 
                 if (column == 0) {
                     System.out.printf("%s %s ",
