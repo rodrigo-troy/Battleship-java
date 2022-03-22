@@ -11,11 +11,18 @@ import java.util.Arrays;
  */
 public class Ship {
     private final int size;
+    private final String name;
     private final String[] positionUsed;
 
-    public Ship(int size) {
+    public Ship(String name,
+                int size) {
+        this.name = name;
         this.size = size;
         this.positionUsed = new String[size];
+    }
+
+    public String getName() {
+        return name;
     }
 
     public int getSize() {

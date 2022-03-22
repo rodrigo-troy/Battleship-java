@@ -16,243 +16,85 @@ public class Battleship {
         this.board = new Board();
     }
 
+    private void addShip(Ship ship) {
+        System.out.printf("\nEnter the coordinates of the %s (%d cells):\n",
+                          ship.getName(),
+                          ship.getSize());
+
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            String line = scanner.nextLine();
+
+            String[] c = line.split(" ");
+
+            if (c.length != 2) {
+                System.out.println("Error! Bad parameters! Try again:");
+                continue;
+            }
+
+            if (board.isInvalidCoord(c[0]) ||
+                board.isInvalidCoord(c[1])) {
+                System.out.println("Error! Bad parameters! Try again:");
+                continue;
+            }
+
+            if (board.isShipLengthWrong(c[0],
+                                        c[1],
+                                        ship)) {
+                System.out.printf("Error! Wrong length of the %s! Try again:\n",
+                                  ship.getName());
+                continue;
+            }
+
+            if (board.isSpaceUnavailable(c[0],
+                                         c[1])) {
+                System.out.println("Error! Wrong ship location! Try again:");
+                continue;
+            }
+
+            if (board.isTooCloseToAnotherShip(c[0],
+                                              c[1])) {
+                System.out.println("Error! You placed it too close to another one. Try again:");
+                continue;
+            }
+
+            board.addShip(c[0],
+                          c[1],
+                          ship);
+
+            break;
+        }
+
+        this.board.print(false);
+    }
 
     public void play() {
         this.board.print(false);
 
-        Scanner scanner = new Scanner(System.in);
+        Ship aircraftCarrier = new Ship("Aircraft Carrier",
+                                        5);
+        Ship battleship = new Ship("Battleship",
+                                   4);
+        Ship submarine = new Ship("Submarine",
+                                  3);
+        Ship cruiser = new Ship("Cruiser",
+                                3);
+        Ship destroyer = new Ship("Destroyer",
+                                  2);
 
-        Ship aircraftCarrier = new Ship(5);
-        Ship battleship = new Ship(4);
-        Ship submarine = new Ship(3);
-        Ship cruiser = new Ship(3);
-        Ship destroyer = new Ship(2);
-
-
-        System.out.println("Enter the coordinates of the Aircraft Carrier (5 cells):\n");
-        while (true) {
-            String line = scanner.nextLine();
-
-            String[] c = line.split(" ");
-
-            if (c.length != 2) {
-                System.out.println("Error! Bad parameters! Try again:");
-                continue;
-            }
-
-            if (board.isInvalidCoord(c[0]) ||
-                board.isInvalidCoord(c[1])) {
-                System.out.println("Error! Bad parameters! Try again:");
-                continue;
-            }
-
-            if (board.isShipLengthWrong(c[0],
-                                        c[1],
-                                        aircraftCarrier)) {
-                System.out.println("Error! Wrong length of the Aircraft Carrier! Try again:");
-                continue;
-            }
-
-            if (board.isSpaceUnavailable(c[0],
-                                         c[1])) {
-                System.out.println("Error! Wrong ship location! Try again:");
-                continue;
-            }
-
-            if (board.isTooCloseToAnotherShip(c[0],
-                                              c[1])) {
-                System.out.println("Error! You placed it too close to another one. Try again:");
-                continue;
-            }
-
-            board.addShip(c[0],
-                          c[1]);
-
-            break;
-        }
-
-        this.board.print(false);
-
-        System.out.println("Enter the coordinates of the Battleship (4 cells):\n");
-        while (true) {
-            String line = scanner.nextLine();
-
-            String[] c = line.split(" ");
-
-            if (c.length != 2) {
-                System.out.println("Error! Bad parameters! Try again:");
-                continue;
-            }
-
-            if (board.isInvalidCoord(c[0]) ||
-                board.isInvalidCoord(c[1])) {
-                System.out.println("Error! Bad parameters! Try again:");
-                continue;
-            }
-
-            if (board.isShipLengthWrong(c[0],
-                                        c[1],
-                                        battleship)) {
-                System.out.println("Error! Wrong length of the Aircraft Carrier! Try again:");
-                continue;
-            }
-
-            if (board.isSpaceUnavailable(c[0],
-                                         c[1])) {
-                System.out.println("Error! Wrong ship location! Try again:");
-                continue;
-            }
-
-            if (board.isTooCloseToAnotherShip(c[0],
-                                              c[1])) {
-                System.out.println("Error! You placed it too close to another one. Try again:");
-                continue;
-            }
-
-            board.addShip(c[0],
-                          c[1]);
-
-            break;
-        }
-
-        this.board.print(false);
-
-        System.out.println("Enter the coordinates of the Submarine (3 cells):\n");
-        while (true) {
-            String line = scanner.nextLine();
-
-            String[] c = line.split(" ");
-
-            if (c.length != 2) {
-                System.out.println("Error! Bad parameters! Try again:");
-                continue;
-            }
-
-            if (board.isInvalidCoord(c[0]) ||
-                board.isInvalidCoord(c[1])) {
-                System.out.println("Error! Bad parameters! Try again:");
-                continue;
-            }
-
-            if (board.isShipLengthWrong(c[0],
-                                        c[1],
-                                        submarine)) {
-                System.out.println("Error! Wrong length of the Aircraft Carrier! Try again:");
-                continue;
-            }
-
-            if (board.isSpaceUnavailable(c[0],
-                                         c[1])) {
-                System.out.println("Error! Wrong ship location! Try again:");
-                continue;
-            }
-
-            if (board.isTooCloseToAnotherShip(c[0],
-                                              c[1])) {
-                System.out.println("Error! You placed it too close to another one. Try again:");
-                continue;
-            }
-
-            board.addShip(c[0],
-                          c[1]);
-
-            break;
-        }
-
-        this.board.print(false);
-
-        System.out.println("Enter the coordinates of the Cruiser (3 cells):\n");
-        while (true) {
-            String line = scanner.nextLine();
-
-            String[] c = line.split(" ");
-
-            if (c.length != 2) {
-                System.out.println("Error! Bad parameters! Try again:");
-                continue;
-            }
-
-            if (board.isInvalidCoord(c[0]) ||
-                board.isInvalidCoord(c[1])) {
-                System.out.println("Error! Bad parameters! Try again:");
-                continue;
-            }
-
-            if (board.isShipLengthWrong(c[0],
-                                        c[1],
-                                        cruiser)) {
-                System.out.println("Error! Wrong length of the Aircraft Carrier! Try again:");
-                continue;
-            }
-
-            if (board.isSpaceUnavailable(c[0],
-                                         c[1])) {
-                System.out.println("Error! Wrong ship location! Try again:");
-                continue;
-            }
-
-            if (board.isTooCloseToAnotherShip(c[0],
-                                              c[1])) {
-                System.out.println("Error! You placed it too close to another one. Try again:");
-                continue;
-            }
-
-            board.addShip(c[0],
-                          c[1]);
-
-            break;
-        }
-
-        this.board.print(false);
-
-        System.out.println("Enter the coordinates of the Destroyer (2 cells):\n");
-        while (true) {
-            String line = scanner.nextLine();
-
-            String[] c = line.split(" ");
-
-            if (c.length != 2) {
-                System.out.println("Error! Bad parameters! Try again:");
-                continue;
-            }
-
-            if (board.isInvalidCoord(c[0]) ||
-                board.isInvalidCoord(c[1])) {
-                System.out.println("Error! Bad parameters! Try again:");
-                continue;
-            }
-
-            if (board.isShipLengthWrong(c[0],
-                                        c[1],
-                                        destroyer)) {
-                System.out.println("Error! Wrong length of the Aircraft Carrier! Try again:");
-                continue;
-            }
-
-            if (board.isSpaceUnavailable(c[0],
-                                         c[1])) {
-                System.out.println("Error! Wrong ship location! Try again:");
-                continue;
-            }
-
-            if (board.isTooCloseToAnotherShip(c[0],
-                                              c[1])) {
-                System.out.println("Error! You placed it too close to another one. Try again:");
-                continue;
-            }
-
-            board.addShip(c[0],
-                          c[1]);
-
-            break;
-        }
-
-        this.board.print(false);
+        this.addShip(aircraftCarrier);
+        this.addShip(battleship);
+        this.addShip(submarine);
+        this.addShip(cruiser);
+        this.addShip(destroyer);
 
         System.out.println("The game starts!");
         this.board.print(true);
         System.out.println("Take a shot!");
 
+
+        Scanner scanner = new Scanner(System.in);
         while (true) {
             String shot = scanner.nextLine();
 

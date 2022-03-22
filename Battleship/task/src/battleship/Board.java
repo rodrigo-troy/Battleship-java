@@ -123,7 +123,8 @@ public class Board {
     }
 
     public void addShip(String coord1,
-                        String coord2) {
+                        String coord2,
+                        Ship ship) {
         Position position1 = new Position(coord1);
         Position position2 = new Position(coord2);
 
