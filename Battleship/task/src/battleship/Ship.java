@@ -29,7 +29,11 @@ public class Ship {
         return size;
     }
 
-    public List<Position> getPositionsUsed() {
+    public void addPosition(Position position) {
+        this.getPositionsUsed().add(position);
+    }
+
+    private List<Position> getPositionsUsed() {
         if (positionsUsed == null) {
             positionsUsed = new ArrayList<>();
         }

@@ -139,12 +139,16 @@ public class Board {
             if (row1 < row2) {
                 for (int i = row1; i <= row2; i++) {
                     table[i][col1] = 'O';
+                    ship.addPosition(new Position(i,
+                                                  col1));
                 }
             }
 
             if (row1 > row2) {
                 for (int i = row2; i <= row1; i++) {
                     table[i][col1] = 'O';
+                    ship.addPosition(new Position(i,
+                                                  col1));
                 }
             }
         }
@@ -153,12 +157,16 @@ public class Board {
             if (col1 < col2) {
                 for (int i = col1; i <= col2; i++) {
                     table[row1][i] = 'O';
+                    ship.addPosition(new Position(i,
+                                                  col1));
                 }
             }
 
             if (col1 > col2) {
                 for (int i = col2; i <= col1; i++) {
                     table[row1][i] = 'O';
+                    ship.addPosition(new Position(i,
+                                                  col1));
                 }
             }
         }
