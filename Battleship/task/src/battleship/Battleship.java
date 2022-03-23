@@ -32,14 +32,14 @@ public class Battleship {
 
         while (true) {
             Player player = isPlayer1Turn ? player1 : player2;
-            Board board = player.getBoard();
-            List<Ship> shipList = player.getShipList();
+            Board board = isPlayer1Turn ? player2.getBoard() : player1.getBoard();
+            List<Ship> shipList = isPlayer1Turn ? player2.getShipList() : player1.getShipList();
 
             board.print(true);
             System.out.println("---------------------");
             board.print(false);
 
-            System.out.printf("%s, it's your turn:",
+            System.out.printf("%s, it's your turn:\n\n",
                               player.getName());
             String shot = s.nextLine();
 
@@ -66,7 +66,7 @@ public class Battleship {
                 System.out.println("You missed!");
             }
 
-            if (isGameOver(player)) {
+            if (isGameOver(isPlayer1Turn ? player2 : player1)) {
                 System.out.println("You sank the last ship. You won. Congratulations!");
                 break;
             }
