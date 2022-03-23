@@ -1,6 +1,5 @@
 package battleship;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -12,90 +11,37 @@ import java.util.Scanner;
  * Time: 15:42
  */
 public class Battleship {
-    private final Board board;
-    private List<Ship> shipList;
+    private final Player player1;
+    private final Player player2;
 
     public Battleship() {
-        this.board = new Board();
-        this.shipList = new ArrayList<>();
-    }
-
-    private void addShip(Ship ship) {
-        System.out.printf("\nEnter the coordinates of the %s (%d cells):\n",
-                          ship.getName(),
-                          ship.getSize());
-
-        Scanner scanner = new Scanner(System.in);
-
-        while (true) {
-            String line = scanner.nextLine();
-
-            String[] c = line.split(" ");
-
-            if (c.length != 2) {
-                System.out.println("Error! Bad parameters! Try again:");
-                continue;
-            }
-
-            if (board.isInvalidCoord(c[0]) ||
-                board.isInvalidCoord(c[1])) {
-                System.out.println("Error! Bad parameters! Try again:");
-                continue;
-            }
-
-            if (board.isShipLengthWrong(c[0],
-                                        c[1],
-                                        ship)) {
-                System.out.printf("Error! Wrong length of the %s! Try again:\n",
-                                  ship.getName());
-                continue;
-            }
-
-            if (board.isSpaceUnavailable(c[0],
-                                         c[1])) {
-                System.out.println("Error! Wrong ship location! Try again:");
-                continue;
-            }
-
-            if (board.isTooCloseToAnotherShip(c[0],
-                                              c[1])) {
-                System.out.println("Error! You placed it too close to another one. Try again:");
-                continue;
-            }
-
-            board.addShip(c[0],
-                          c[1],
-                          ship);
-
-            break;
-        }
-
-        this.shipList.add(ship);
-        this.board.print(false);
+        this.player1 = new Player("Player 1");
+        this.player2 = new Player("Player 2");
     }
 
     public void play() {
-        this.board.print(false);
+        placeShips(player1);
+        System.out.println("Press Enter and pass the move to another player");
+        Scanner s = new Scanner(System.in);
+        s.nextLine();
+        placeShips(player2);
+        System.out.println("Press Enter and pass the move to another player");
+        s.nextLine();
 
-        this.addShip(new Ship("Aircraft Carrier",
-                              5));
-        this.addShip(new Ship("Battleship",
-                              4));
-        this.addShip(new Ship("Submarine",
-                              3));
-        this.addShip(new Ship("Cruiser",
-                              3));
-        this.addShip(new Ship("Destroyer",
-                              2));
+        boolean isPlayer1Turn = true;
 
-        System.out.println("The game starts!");
-        this.board.print(true);
-        System.out.println("Take a shot!");
-
-
-        Scanner scanner = new Scanner(System.in);
         while (true) {
-            String shot = scanner.nextLine();
+            Player player = isPlayer1Turn ? player1 : player2;
+            Board board = player.getBoard();
+            List<Ship> shipList = player.getShipList();
+
+            board.print(true);
+            System.out.println("---------------------");
+            board.print(false);
+
+            System.out.printf("%s, it's your turn:",
+                              player.getName());
+            String shot = s.nextLine();
 
             if (board.isInvalidCoord(shot)) {
                 System.out.println("Error! You entered the wrong coordinates! Try again:");
@@ -104,10 +50,10 @@ public class Battleship {
 
             if (board.hitShip(shot)) {
                 boolean shipSank = false;
-                for (Ship ship : this.shipList) {
+                for (Ship ship : shipList) {
                     if (ship.isSank()) {
                         System.out.println("You sank a ship! Specify a new target:");
-                        this.shipList.remove(ship);
+                        shipList.remove(ship);
                         shipSank = true;
                         break;
                     }
@@ -120,17 +66,36 @@ public class Battleship {
                 System.out.println("You missed!");
             }
 
-            this.board.print(true);
-
-            if (isGameOver()) {
+            if (isGameOver(player)) {
                 System.out.println("You sank the last ship. You won. Congratulations!");
                 break;
             }
+
+            isPlayer1Turn = !isPlayer1Turn;
+            System.out.println("Press Enter and pass the move to another player");
+            s.nextLine();
         }
     }
 
-    private boolean isGameOver() {
-        for (Ship ship : this.shipList) {
+    private void placeShips(Player player) {
+        System.out.printf("%s, place your ships on the game field\n\n",
+                          player.getName());
+        player.getBoard().print(true);
+
+        player.addShip(new Ship("Aircraft Carrier",
+                                5));
+        player.addShip(new Ship("Battleship",
+                                4));
+        player.addShip(new Ship("Submarine",
+                                3));
+        player.addShip(new Ship("Cruiser",
+                                3));
+        player.addShip(new Ship("Destroyer",
+                                2));
+    }
+
+    private boolean isGameOver(Player player) {
+        for (Ship ship : player.getShipList()) {
             if (!ship.isSank()) {
                 return false;
             }
