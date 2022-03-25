@@ -1,6 +1,5 @@
 package battleship;
 
-import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -20,40 +19,42 @@ public class Battleship {
     }
 
     public void play() {
-        placeShips(player1);
+        this.placeShips(player1);
         System.out.println("Press Enter and pass the move to another player");
         Scanner s = new Scanner(System.in);
         s.nextLine();
-        placeShips(player2);
+        this.placeShips(player2);
         System.out.println("Press Enter and pass the move to another player");
         s.nextLine();
 
         boolean isPlayer1Turn = true;
 
         while (true) {
-            Player player = isPlayer1Turn ? player1 : player2;
-            Board board = isPlayer1Turn ? player2.getBoard() : player1.getBoard();
-            List<Ship> shipList = isPlayer1Turn ? player2.getShipList() : player1.getShipList();
+            Player opponent = isPlayer1Turn ? player2 : player1;
 
-            board.print(true);
+            opponent.getBoard().print(true);
             System.out.println("---------------------");
-            board.print(false);
+            if (isPlayer1Turn) {
+                player1.getBoard().print(false);
+            } else {
+                player2.getBoard().print(false);
+            }
 
             System.out.printf("%s, it's your turn:\n\n",
-                              player.getName());
+                              isPlayer1Turn ? player1.getName() : player2.getName());
             String shot = s.nextLine();
 
-            if (board.isInvalidCoord(shot)) {
+            if (opponent.getBoard().isInvalidCoord(shot)) {
                 System.out.println("Error! You entered the wrong coordinates! Try again:");
                 continue;
             }
 
-            if (board.hitShip(shot)) {
+            if (opponent.getBoard().hitShip(shot)) {
                 boolean shipSank = false;
-                for (Ship ship : shipList) {
+                for (Ship ship : opponent.getShipList()) {
                     if (ship.isSank()) {
                         System.out.println("You sank a ship! Specify a new target:");
-                        shipList.remove(ship);
+                        opponent.getShipList().remove(ship);
                         shipSank = true;
                         break;
                     }
@@ -66,7 +67,7 @@ public class Battleship {
                 System.out.println("You missed!");
             }
 
-            if (isGameOver(isPlayer1Turn ? player2 : player1)) {
+            if (isGameOver(opponent)) {
                 System.out.println("You sank the last ship. You won. Congratulations!");
                 break;
             }
